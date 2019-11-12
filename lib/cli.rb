@@ -31,8 +31,9 @@ def options
   
   Please choose one of the following:
   - Calories : displays the calories for the recipe
-  - Ingredients : displays the ingredients needed for the recipe
-  - Exit : go back to main menu
+  - Serving : displays the ingredients needed for the recipe
+  - Both : Calories and serving size
+  - Main Menu : go back to main menu
   OPTIONS
   puts options
   #run
@@ -76,15 +77,16 @@ def recipe_detail_menu(recipe)
 case command
   when 'calories'
     puts recipe.calories
-  when 'ingredients'
-    puts recipe.ingredients.map do |ingredient|
-      ingredient.name
-    end
+    help
+  when 'servings'
+    puts recipe.servings
+    help
   when 'both'
     puts recipe.calories
-    puts recipe.ingredients.map do |ingredient|
-      ingredient.name
-    end
+    puts recipe.servings
+    help
+  when 'main menu'
+    help
   else
     options
   end
@@ -99,11 +101,11 @@ def list_recipes
 end
 
 
-def calories
-  Recipe.all.find do |recipe|
-  puts recipe.calories
-  end
-end
+# def calories
+#   Recipe.all.find do |recipe|
+#   puts recipe.calories
+#   end
+# end
 
 
 # def ingredient_submenu
