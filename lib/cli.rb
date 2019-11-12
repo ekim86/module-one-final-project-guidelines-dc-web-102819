@@ -1,12 +1,20 @@
 
 def welcome
-  puts "Welcome to Marija and Eunice's Recipe App!" #entry point
-  help
+  puts "Welcome to Marija and Eunice's Recipe App!"
+  puts "
+        $$  $$  $$
+      __||__||__||__
+    | * * * * * * *|
+    |* * * * * * * |
+    | * * * * * * *|
+    |______________|" #entry point
+    help
 end
 
 def help
   help = <<-HELP
-    Please choose one of the following:
+    
+  Please choose one of the following:
     - Recipes : displays all the recipes
     - Ingredients : displays a list of ingredients to choose from
     - Blank :
@@ -31,21 +39,42 @@ def recipe_submenu
     else
       puts "Invalid input, please try again."
     end
-    help
+   help
 end
-
 
 def list_recipes
   Recipe.all.each_with_index {|recipe, index|
   puts "#{index+1}. #{recipe.name}"}
 end
 
-#  def ingredient_submenu
-#   list_recipe
-#   puts "Please select a recipe to see the directions:"
-#      user_input = gets.chomp
-#     puts Recipe.all.slice((user_input.to_i)-1).directions
-#  end
+def calories
+  Recipe.all.find do |recipe|
+  puts recipe.calories
+  end
+end
+
+
+# def ingredient_submenu
+#   list_ingredients
+#   puts "Please select an ingredient to find recipes:"
+#     user_input = gets.chomp
+#     if (user_input.to_i) <= Ingredient.all.count
+#       puts Ingredient.all.slice((user_input.to_i)-1).directions
+#     else
+#       puts "Invalid input, please try again."
+#     end
+#     help
+# end
+
+def list_ingredients
+  Ingredient.all.each_with_index {|ingredient, index|
+    puts "#{index+1}. #{ingredient.name}"}
+    help
+end
+
+def test
+
+end
 
 # def read_recipes(name, instructions)
 #   puts "Please select a recipe by number"
@@ -66,15 +95,12 @@ end
 #   end
 # end
 
-def recipe_direction
-  Recipe.all.each_with_index {|recipe, index|
-    puts "#{recipe.name} - #{recipe.directions}"}
-end
+# def recipe_direction
+#   Recipe.all.each_with_index {|recipe, index|
+#     puts "#{recipe.name} - #{recipe.directions}"}
+# end
 
-def ingredients
-  Ingredient.all.each_with_index {|ingredient, index|
-    puts "#{index+1}. #{ingredient.name}"}
-end
+
 
 def exit_app
   puts "Thank you for using our app. Goodbye!"
@@ -83,21 +109,16 @@ end
 
 
 def run
-  # command = ""
   command = gets.downcase.strip
-  # while command
     puts "Please enter a command:"
   case command
     when 'recipes'
       recipe_submenu
     when 'ingredients'
-      ingredients
+      list_ingredients
     when 'exit'
       exit_app
-      # command = nil
-      # break
     else
       help
     end
-  # end
 end
