@@ -25,10 +25,14 @@ end
 def recipe_submenu
   list_recipes
   puts "Please select a recipe to see the directions:"
-  user_input = gets.chomp
-   puts Recipe.all.slice((user_input.to_i)-1).directions
+    user_input = gets.chomp
+    if (user_input.to_i) <= Recipe.all.count
+      puts Recipe.all.slice((user_input.to_i)-1).directions
+    else
+      puts "Invalid input, please try again."
+    end
+    help
 end
-
 
 
 def list_recipes
@@ -36,7 +40,12 @@ def list_recipes
   puts "#{index+1}. #{recipe.name}"}
 end
 
-
+#  def ingredient_submenu
+#   list_recipe
+#   puts "Please select a recipe to see the directions:"
+#      user_input = gets.chomp
+#     puts Recipe.all.slice((user_input.to_i)-1).directions
+#  end
 
 # def read_recipes(name, instructions)
 #   puts "Please select a recipe by number"
@@ -62,7 +71,6 @@ def recipe_direction
     puts "#{recipe.name} - #{recipe.directions}"}
 end
 
-
 def ingredients
   Ingredient.all.each_with_index {|ingredient, index|
     puts "#{index+1}. #{ingredient.name}"}
@@ -75,21 +83,21 @@ end
 
 
 def run
-  command = ""
-  while command
-    puts "Please enter a command:"
+  # command = ""
   command = gets.downcase.strip
+  # while command
+    puts "Please enter a command:"
   case command
     when 'recipes'
       recipe_submenu
-      # exit_app
     when 'ingredients'
       ingredients
     when 'exit'
       exit_app
-      break
+      # command = nil
+      # break
     else
       help
     end
-  end
+  # end
 end
