@@ -1,3 +1,5 @@
+# prompt = TTY::Prompt.new
+require 'pry'
 
 def welcome
   puts "Welcome to Marija and Eunice's Recipe App!"
@@ -24,10 +26,35 @@ def help
   run
 end
 
+def options
+  options = <<-OPTIONS
+  
+  Please choose one of the following:
+  - Calories : displays the calories for the recipe
+  - Ingredients : displays the ingredients needed for the recipe
+  - Exit : go back to main menu
+  OPTIONS
+  puts options
+  #run
+end
+
 # def accept_input
 #   puts "Please enter a number:"
 #   user_response = gets.downcase.chomp
 #   return user_response
+# end
+
+# def recipe_submenu
+#   list_recipes
+#   puts "Please select a recipe:"
+#     user_input = gets.chomp
+#     if (user_input.to_i) <= Recipe.all.count
+#       puts Recipe.all.slice((user_input.to_i)-1).directions
+#     else
+#       puts "Invalid input, please try again."
+#     end
+#     options
+#   #  help
 # end
 
 def recipe_submenu
@@ -35,17 +62,42 @@ def recipe_submenu
   puts "Please select a recipe to see the directions:"
     user_input = gets.chomp
     if (user_input.to_i) <= Recipe.all.count
-      puts Recipe.all.slice((user_input.to_i)-1).directions
+      chosen_recipe = Recipe.all[user_input.to_i - 1]
+      puts chosen_recipe.directions
     else
       puts "Invalid input, please try again."
     end
-   help
+    options
+    recipe_detail_menu(chosen_recipe)
 end
+
+def recipe_detail_menu(recipe)
+  command = gets.downcase.strip
+case command
+  when 'calories'
+    puts recipe.calories
+  when 'ingredients'
+    puts recipe.ingredients.map do |ingredient|
+      ingredient.name
+    end
+  when 'both'
+    puts recipe.calories
+    puts recipe.ingredients.map do |ingredient|
+      ingredient.name
+    end
+  else
+    options
+  end
+end
+
+  # displays choices for this recipe, including calories and ingredients
+# end
 
 def list_recipes
   Recipe.all.each_with_index {|recipe, index|
   puts "#{index+1}. #{recipe.name}"}
 end
+
 
 def calories
   Recipe.all.find do |recipe|
@@ -113,7 +165,7 @@ def run
     puts "Please enter a command:"
   case command
     when 'recipes'
-      recipe_submenu
+     recipe_submenu
     when 'ingredients'
       list_ingredients
     when 'exit'
