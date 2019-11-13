@@ -29,33 +29,24 @@ def options
   options = <<-OPTIONS
   
   Please type one of the following:
+  - Ingredients : displays the ingredients needed for the recipe
   - Calories : displays the calories for the recipe
   - Servings : displays the ingredients needed for the recipe
   - Both : Calories and serving size
   - Main Menu : go back to main menu
   OPTIONS
   puts options
-  #run
 end
 
-# def accept_input
-#   puts "Please enter a number:"
-#   user_response = gets.downcase.chomp
-#   return user_response
-# end
-
-# def recipe_submenu
-#   list_recipes
-#   puts "Please select a recipe:"
-#     user_input = gets.chomp
-#     if (user_input.to_i) <= Recipe.all.count
-#       puts Recipe.all.slice((user_input.to_i)-1).directions
-#     else
-#       puts "Invalid input, please try again."
-#     end
-#     options
-#   #  help
-# end
+def options_for_ingredients
+  options2 = <<-OPTIONS2
+  
+  Please type one of the following:
+  - Directions : displays the recipe directions
+  - Main Menu : go back to main menu
+  OPTIONS2
+  puts options2
+end
 
 def recipe_submenu
   list_recipes
@@ -69,11 +60,26 @@ def recipe_submenu
     end
     options
     recipe_detail_menu(chosen_recipe)
+  end
+
+def ingredient_for_recipe(recipe)
+  # user_input = gets.chomp
+  recipe_search = IngredientRecipe.all.select do |ingredientrecipe|
+    ingredientrecipe.recipe.name.downcase
+  end
+    recipe_search.each do |recipesearch|
+      puts recipesearch.ingredient.name
+    end
 end
+#gives us all the ingredients
+#we need just the ingredients for the chosen recipe
 
 def recipe_detail_menu(recipe)
   command = gets.downcase.strip
 case command
+  when 'ingredients'
+    puts "Ingredients needed: #{ingredient_for_recipe(recipe)}"
+    help
   when 'calories'
     puts "Calories #{recipe.calories}"
     help
@@ -86,6 +92,8 @@ case command
     help
   when 'main menu'
     help
+  when 'exit'
+    exit_app
   else
     options
   end
@@ -106,7 +114,8 @@ def ingredient_submenu
       ingredient_search.each do |ingredientsearch|
         puts ingredientsearch.recipe.name
       end
-    help
+    options_for_ingredients
+    
 end
 # if ingredient doesnt exist conditional
 
@@ -114,6 +123,34 @@ def list_ingredients
   Ingredient.all.each_with_index {|ingredient, index|
     puts "#{index+1}. #{ingredient.name}"}
 end
+
+# def recipe_detail_menu(recipe)
+#   command = gets.downcase.strip
+# case command
+#   when 'ingredients'
+#     puts "Ingredients needed: #{ingredient_for_recipe(recipe)}"
+#     help
+#   when 'calories'
+#     puts "Calories #{recipe.calories}"
+#     help
+#   when 'servings'
+#     puts "Servings #{recipe.servings}"
+#     help
+#   when 'both'
+#     puts "Calories #{recipe.calories}"
+#     puts "Servings #{recipe.servings}"
+#     help
+#   when 'main menu'
+#     help
+#   when 'exit'
+#     exit_app
+#   else
+#     options
+#   end
+# end
+
+
+
 
 def exit_app
   puts "Thank you for using our app. Goodbye!"
