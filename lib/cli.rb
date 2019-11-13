@@ -42,8 +42,8 @@ def options_for_ingredients
   options2 = <<-OPTIONS2
   
   Please type one of the following:
-  - Directions : displays the recipe directions
   - Main Menu : go back to main menu
+  - Exit : exits the app
   OPTIONS2
   puts options2
 end
@@ -114,8 +114,16 @@ def ingredient_submenu
       ingredient_search.each do |ingredientsearch|
         puts ingredientsearch.recipe.name
       end
+      puts "Please type a recipe:"
+      user_input = gets.chomp
+      recipe_search = IngredientRecipe.all.select do |ingredientrecipe|
+        ingredientrecipe.recipe.directions.downcase
+      end
+        recipe_search.each do |recipesearch|
+          puts recipesearch.recipe.directions
+        end
     options_for_ingredients
-    
+    ingredient_detail_menu(ingredient_search)
 end
 # if ingredient doesnt exist conditional
 
@@ -124,31 +132,17 @@ def list_ingredients
     puts "#{index+1}. #{ingredient.name}"}
 end
 
-# def recipe_detail_menu(recipe)
-#   command = gets.downcase.strip
-# case command
-#   when 'ingredients'
-#     puts "Ingredients needed: #{ingredient_for_recipe(recipe)}"
-#     help
-#   when 'calories'
-#     puts "Calories #{recipe.calories}"
-#     help
-#   when 'servings'
-#     puts "Servings #{recipe.servings}"
-#     help
-#   when 'both'
-#     puts "Calories #{recipe.calories}"
-#     puts "Servings #{recipe.servings}"
-#     help
-#   when 'main menu'
-#     help
-#   when 'exit'
-#     exit_app
-#   else
-#     options
-#   end
-# end
-
+def ingredient_detail_menu(recipe)
+  command = gets.downcase.strip
+case command
+  when 'main menu'
+    help
+  when 'exit'
+    exit_app
+  else
+    help
+  end
+end
 
 
 
