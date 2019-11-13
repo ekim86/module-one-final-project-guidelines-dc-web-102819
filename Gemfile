@@ -7,3 +7,4 @@ gem "pry"
 gem "rake"
 gem "require_all"
 gem 'tty-prompt'
+gem 'annotate'

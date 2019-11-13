@@ -92,9 +92,6 @@ case command
   end
 end
 
-  # displays choices for this recipe, including calories and ingredients
-# end
-
 def list_recipes
   Recipe.all.each_with_index {|recipe, index|
   puts "#{index+1}. #{recipe.name}"}
@@ -108,59 +105,33 @@ end
 # end
 
 
-# def ingredient_submenu
-#   list_ingredients
-#   puts "Please select an ingredient to find recipes:"
-#     user_input = gets.chomp
-#     if (user_input.to_i) <= Ingredient.all.count
-#       puts Ingredient.all.slice((user_input.to_i)-1).directions
-#     else
-#       puts "Invalid input, please try again."
-#     end
-#     help
-# end
+def ingredient_submenu
+  list_ingredients
+  puts "Please type the ingredient to find recipes:"
+    user_input = gets.chomp
+    # if (user_input) IngredientRecipe.all.count
+      ingredient_search = IngredientRecipe.all.select do |ingredientrecipe|
+        ingredientrecipe.ingredient.name.downcase == user_input.downcase
+      end
+  # binding.pry
+      ingredient_search.each do |ingredientsearch|
+        puts ingredientsearch.recipe.name
+      end
+    # else
+      # puts "Invalid input, please try again."
+    # end
+    help
+end
+# if ingredient doesnt exist conditional
 
 def list_ingredients
   Ingredient.all.each_with_index {|ingredient, index|
     puts "#{index+1}. #{ingredient.name}"}
-    help
 end
-
-def test
-
-end
-
-# def read_recipes(name, instructions)
-#   puts "Please select a recipe by number"
-#   user_response = gets.downcase.strip
-
-#   if (1..4).to_a.include?(user_response.to_i)
-#     puts "Opening #{recipe_direction[user_response.to_i -1]}"
-#   # elsif songs.include?(user_response)
-#   #   puts "Playing #{user_response}"
-#   else
-#     puts "Invalid input, please try again or write exit."
-#   end
-# end
-
-# def recipe_direction
-#   list_recipes.select do |recipe|
-#     puts recipe.directions
-#   end
-# end
-
-# def recipe_direction
-#   Recipe.all.each_with_index {|recipe, index|
-#     puts "#{recipe.name} - #{recipe.directions}"}
-# end
-
-
 
 def exit_app
   puts "Thank you for using our app. Goodbye!"
 end
-
-
 
 def run
   command = gets.downcase.strip
@@ -169,7 +140,7 @@ def run
     when 'recipes'
      recipe_submenu
     when 'ingredients'
-      list_ingredients
+      ingredient_submenu
     when 'exit'
       exit_app
     else
