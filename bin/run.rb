@@ -1,3 +1,4 @@
 require_relative '../config/environment'
-#ruby bin/run.rb
+# enter into command line
+# ruby bin/run.rb
 welcome
