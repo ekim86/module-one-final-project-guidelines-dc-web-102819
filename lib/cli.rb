@@ -62,15 +62,20 @@ def recipe_submenu
     recipe_detail_menu(chosen_recipe)
   end
 
-def ingredient_for_recipe(recipe)
-  # user_input = gets.chomp
-  recipe_search = IngredientRecipe.all.select do |ingredientrecipe|
-    ingredientrecipe.recipe.name.downcase
+  def list_test
+    Ingredient.all.map {|ingredient| ingredient.name}
   end
-    recipe_search.each do |recipesearch|
-      puts recipesearch.ingredient.name
-    end
-end
+
+# def ingredient_for_recipe(recipe)
+#   binding.pry
+#   # user_input = gets.chomp
+#   recipe_search = IngredientRecipe.all.select do |ingredientrecipe|
+#     ingredientrecipe.recipe.name.downcase
+#   end
+#     recipe_search.each do |recipesearch|
+#       puts recipesearch.ingredient.name
+#     end
+# end
 #gives us all the ingredients
 #we need just the ingredients for the chosen recipe
 
@@ -78,7 +83,10 @@ def recipe_detail_menu(recipe)
   command = gets.downcase.strip
 case command
   when 'ingredients'
-    puts "Ingredients needed: #{ingredient_for_recipe(recipe)}"
+    puts list_test
+    # binding.pry
+    # puts "Ingredients needed: #{recipe.ingredients.name}"
+    # puts Ingredients.all.map {|ingredient| ingredient.name} 
     help
   when 'calories'
     puts "Calories #{recipe.calories}"
@@ -103,12 +111,13 @@ def list_recipes
   Recipe.all.each_with_index {|recipe, index|
   puts "#{index+1}. #{recipe.name}"}
 end
+  
 
 def ingredient_submenu
   list_ingredients
   puts "Please type the ingredient to find recipes:"
     user_input = gets.chomp
-      ingredient_search = IngredientRecipe.all.select do |ingredientrecipe|
+    ingredient_search = IngredientRecipe.all.select do |ingredientrecipe|
         ingredientrecipe.ingredient.name.downcase == user_input.downcase
       end
       ingredient_search.each do |ingredientsearch|
@@ -117,7 +126,7 @@ def ingredient_submenu
       puts "Please type a recipe:"
       user_input = gets.chomp
       recipe_search = IngredientRecipe.all.select do |ingredientrecipe|
-        ingredientrecipe.recipe.directions.downcase
+        ingredientrecipe.recipe.name.downcase
       end
         recipe_search.each do |recipesearch|
           puts recipesearch.recipe.directions
